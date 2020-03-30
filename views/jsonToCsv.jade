@@ -1,0 +1,95 @@
+extends layout
+
+block content
+  h2.h3= settings.title
+  p Welcome to #{settings.title}
+  h1= "Json To Csv"
+  p Convert Json to csv file
+  div.container-fuild 
+    form(onsubmit="downloadFile(this); return false;")#form
+      div.alert.alert-danger(role="alert" style="display:none")#error
+      div.custom-file.mb-1
+        input(type="file" onchange='changeFile(event)').custom-file-input#customFile
+        label(for="customFile").custom-file-label Upload JSON file
+        div.invalid-feedback Invalid file format
+      div.form-group
+        textarea(
+          placeholder='...or paste your JSON text here',
+          name="jsonText",
+          rows="6",
+          oninput="inputTextArea(event)"
+        ).form-control
+      div.form-group.text-center
+        button(disabled="true").btn.btn-primary#btnDownload Download
+        button(type="button" onclick="clearForm()").btn.btn-warning Clear
+
+  script(src="https://cdn.jsdelivr.net/npm/json2csv")
+  script
+    | let timeoutTextArea;
+    | let csv;
+    | let canDownload = false;
+    | let inputFile = document.getElementById('customFile'); 
+    | const error = document.getElementById('error');
+    | const btnDownload = document.getElementById('btnDownload');
+    | function downloadFile(form) { 
+    |    var d = new Date();
+    |    var a = document.createElement('a');
+    |    var blob = new Blob([csv], {'type':'csv'});
+    |    a.href = window.URL.createObjectURL(blob);
+    |    a.download = "json_to_csv_" + d.toISOString() + ".csv";
+    |    a.click();
+    | }
+    | function clearForm() {
+    |   canDownload = false;
+    |   checkBtnDownload();
+    |   error.style.display = "none";
+    |   inputFile.nextElementSibling.innerHTML = "Upload JSON file";
+    |   inputFile.files = document.createElement('input').files;
+    |   document.getElementById('form').jsonText.value= "";
+    | }
+    | function validFile(event) {
+    |   event.target.nextElementSibling.innerHTML = event.target.files[0].name;
+    |   regex = new RegExp("(.*?)\.(json)$");
+    |   if(regex.test(event.target.value)) { event.target.classList.remove("is-invalid"); return true; }
+    |   else { event.target.classList.add("is-invalid"); return false;}
+    | }
+    | function changeFile(event) {
+    |    const valid = validFile(event);
+    |    if(!valid) { return;}
+    |    var file = event.target.files[0];
+    |    var reader = new FileReader();
+    |    
+    |    reader.onload = function(e) {
+    |       const content = reader.result;
+    |       csv = convertJsonTextToCsv(content);
+    |       checkBtnDownload();
+    |    }
+    |    
+    |    reader.readAsText(file);
+    | }
+    | function inputTextArea(event) {
+    |     clearTimeout(timeoutTextArea);  
+    |     timeoutTextArea = setTimeout(() => {
+    |       csv = convertJsonTextToCsv(event.target.value);
+    |       checkBtnDownload();
+    |     }, 1000);
+    | }
+    | function convertJsonTextToCsv(text) {
+    |     error.style.display = "none";
+    |     if(text.length === 0){ return "";}
+    |     try{
+    |       const data = JSON.parse(text);
+    |       const csv = json2csv.parse(data);
+    |       canDownload = true;
+    |       return csv;
+    |     } catch(e) {
+    |       error.innerHTML = e.message;
+    |       error.style.display = "block";
+    |       canDownload = false;
+    |     }
+    |     return "";
+    | }
+    | function checkBtnDownload() {
+    |   btnDownload.disabled = !canDownload;
+    | }
+
