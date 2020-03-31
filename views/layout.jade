@@ -2,7 +2,7 @@ doctype html
 html
   head
     title= settings.title
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
     link(
       rel='stylesheet',
       href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
@@ -11,9 +11,12 @@ html
     )
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    header
+      h2.h3= settings.title
+      p some tools to help you
     div
       block content
-    footer.mt-5
+    footer.footer
       p 
         &copy 2020 developer by 
         a(href='https://raviassis.github.io/', target='_blank') Ravi Assis 

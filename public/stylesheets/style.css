@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  padding: 20px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -13,4 +13,9 @@ a {
 
 .justify-center {
   justify-content: center;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0px;
 }
