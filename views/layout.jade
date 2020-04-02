@@ -1,6 +1,15 @@
 doctype html
 html
   head
+    //- Global site tag (gtag.js) - Google Analytics
+    script(async src="https://www.googletagmanager.com/gtag/js?id=G-C1KTP1TMYJ")
+    
+    script
+      |window.dataLayer = window.dataLayer || [];
+      |function gtag(){dataLayer.push(arguments);}
+      |gtag('js', new Date());
+      |gtag('config', 'G-C1KTP1TMYJ');
+
     title= settings.title
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
     link(
