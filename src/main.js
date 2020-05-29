@@ -1,15 +1,16 @@
 import Vue from 'vue';
 import App from './App.vue';
 import VueRouter from 'vue-router';
-// import HelloWorld from './components/HelloWorld';
 import JsonToCsv from './views/JsonToCsv';
 import InvestimentSimulation from './views/InvestimentSimulation';
+import Home from './views/Home';
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '/', component: JsonToCsv},
+  { path: '/', component: Home},
+  { path: '/json-to-csv', component: JsonToCsv },
   { path: '/investiment-simulation', component: InvestimentSimulation}
 ];
 

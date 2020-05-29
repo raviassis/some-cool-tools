@@ -1,29 +1,21 @@
 <template>
   <div class="body" id="app">
-    <header>
-      <h2 class="h3">Some Cool Tools</h2>
-      <p>some tools to help you</p>
-    </header>
-    <router-view></router-view>
-    <footer class="footer">
-      <p>
-        <span v-html="copy"></span> 2020 developer by <a href="https://raviassis.github.io/" target='_blank'>Ravi Assis</a>
-        | <a href="https://github.com/raviassis/some-cool-tools" target='_blank'>GitHub</a>
-      </p>
-    </footer>
+    <Header/>
+    <div class="mb-5">
+      <router-view></router-view>
+    </div>
+    <Footer class="footer"/>
   </div>
 </template>
 
 <script>
-
+import Header from './components/Header';
+import Footer from './components/Footer';
 export default {
   name: 'App',
   components: {
-  },
-  data: function() {
-    return {
-        copy: '&copy',
-    };
+    Header,
+    Footer
   }
 }
 </script>
@@ -48,6 +40,7 @@ a {
 
 .footer {
   bottom: 0px;
+  position: fixed;
 }
 
 </style>
